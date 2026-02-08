@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraLink AI - Empowering Silence Through Vision</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- TensorFlow.js for Face Detection -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- PAGE 1: LANDING -->
+    <div id="landing" class="page active">
+        <div class="logo-container">
+            <h1 class="logo-title">AuraLink <span class="ai-text">AI</span></h1>
+            <p class="tagline">Empowering Silence Through Vision</p>
+        </div>
+
+        <div class="vision-circle">
+            <div class="circle-outer">
+                <div class="circle-inner">
+                    <svg class="vision-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <button class="cta-button" onclick="app.showPage('setup')">Get Started</button>
+
+        <div class="trust-indicators">
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span>Privacy-First</span>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                </svg>
+                <span>No Hardware</span>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                </svg>
+                <span>Browser-Based</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: SETUP -->
+    <div id="setup" class="page">
+        <div class="setup-container">
+            <div class="setup-header">
+                <div class="setup-icon">
+                    <svg class="wave-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
+                    </svg>
+                </div>
+                <h2 class="setup-title">Quick Setup</h2>
+                <p class="setup-subtitle">Just a few details to personalize your experience</p>
+            </div>
+
+            <div class="setup-form">
+                <div class="form-group">
+                    <label class="form-label">Display Name (optional)</label>
+                    <input type="text" class="form-input" id="displayName" placeholder="How should we address you?">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Preferred Language</label>
+                    <select class="form-select" id="language">
+                        <option value="en">English (US)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="toggle-group">
+                        <div class="toggle-info">
+                            <div class="toggle-title">Voice Output</div>
+                            <div class="toggle-desc">Convert gestures to speech</div>
+                        </div>
+                        <div class="toggle-switch active" id="voiceToggle" onclick="app.toggleVoice()">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="app.showPage('mode-selection')">Continue →</button>
+            <p class="step-indicator">Step 1 of 2</p>
+        </div>
+    </div>
+
+    <!-- PAGE 3: MODE SELECTION -->
+    <div id="mode-selection" class="page">
+        <div class="mode-header">
+            <button class="back-button" onclick="app.showPage('setup')">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <h3 class="header-title">AuraLink AI</h3>
+            <button class="settings-button">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mode-content">
+            <h2 class="mode-title">Select Mode</h2>
+            <p class="mode-subtitle">Tap the interface that matches<br>your current comfort level.</p>
+
+            <div class="mode-grid">
+                <div class="mode-card selected" data-mode="nonverbal" onclick="app.selectMode('nonverbal')">
+                    <div class="check-icon">
+                        <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                    </div>
+                    <div class="mode-card-icon">💬</div>
+                    <div class="mode-card-title">Non-Verbal</div>
+                    <div class="mode-card-desc">Speak using<br>gestures</div>
+                </div>
+
+                <div class="mode-card" data-mode="limited" onclick="app.selectMode('limited')">
+                    <div class="check-icon">
+                        <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                    </div>
+                    <div class="mode-card-icon">🛏️</div>
+                    <div class="mode-card-title">Limited</div>
+                    <div class="mode-card-desc">Eye tracking<br>only</div>
+                </div>
+
+                <div class="mode-card" data-mode="simple" onclick="app.selectMode('simple')">
+                    <div class="check-icon">
+                        <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                    </div>
+                    <div class="mode-card-icon">👦</div>
+                    <div class="mode-card-title">Simple</div>
+                    <div class="mode-card-desc">Easy<br>pictograms</div>
+                </div>
+
+                <div class="mode-card" data-mode="support" onclick="app.selectMode('support')">
+                    <div class="check-icon">
+                        <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                    </div>
+                    <div class="mode-card-icon">🤝</div>
+                    <div class="mode-card-title">Support</div>
+                    <div class="mode-card-desc">Caregiver setup</div>
+                </div>
+            </div>
+
+            <div class="tech-badge">
+                <div class="tech-text">Powered by AuraLink Core</div>
+                <div class="tech-accuracy">99.8% Gesture Accuracy Enabled</div>
+            </div>
+
+            <button class="cta-button" onclick="app.startCommunication()">Continue →</button>
+
+            <div class="security-indicators">
+                <div class="security-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <span>SECURE</span>
+                </div>
+                <div class="security-item">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <span>REAL-TIME</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: MAIN COMMUNICATION SCREEN -->
+    <div id="main-screen" class="page">
+        <div class="main-header">
+            <div class="app-logo">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
+                </svg>
+                <span class="logo-name">AuraLink AI</span>
+            </div>
+            <div class="header-right">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">CAMERA: ACTIVE</span>
+                </div>
+                <div class="mode-label">Mode: <span id="currentModeLabel">Non-Verbal</span></div>
+            </div>
+        </div>
+
+        <div class="camera-container">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+            
+            <div class="listening-overlay">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                </svg>
+                <span>LISTENING...</span>
+            </div>
+
+            <div class="gesture-feedback" id="gestureFeedback">
+                ⚡ LONG BLINK DETECTED
+            </div>
+
+            <div class="stats-overlay">
+                <div>Blink: <span id="blinkTime">0.65s</span></div>
+                <div>Match: <span style="color: var(--success-green)">CONFIRMED</span></div>
+                <div>FPS: <span id="fps">60</span></div>
+            </div>
+        </div>
+
+        <div class="command-grid">
+            <div class="command-card water-card" onclick="app.triggerCommand('water')">
+                <div class="command-icon-wrapper">
+                    <svg class="command-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </div>
+                <div class="command-label">Water</div>
+            </div>
+
+            <div class="command-card food-card" onclick="app.triggerCommand('food')">
+                <div class="command-icon-wrapper">
+                    <svg class="command-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <div class="command-label">Food</div>
+            </div>
+
+            <div class="command-card medicine-card" onclick="app.triggerCommand('medicine')">
+                <div class="command-icon-wrapper">
+                    <svg class="command-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <div class="command-label">Medicine</div>
+            </div>
+
+            <div class="command-card emergency-card" onclick="app.triggerEmergency()">
+                <div class="command-icon-wrapper">
+                    <svg class="command-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </div>
+                <div class="command-label">EMERGENCY</div>
+            </div>
+        </div>
+
+        <div class="output-panel">
+            <div class="output-icon-wrapper">
+                <svg class="output-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                </svg>
+            </div>
+            <div class="output-text">
+                <div class="output-label">TRANSLATED OUTPUT</div>
+                <div class="output-message" id="outputMessage">"I need water"</div>
+            </div>
+            <div class="visualizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item active">
+                <svg class="nav-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span class="nav-label">MAIN</span>
+            </button>
+            <button class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="nav-label">HISTORY</span>
+            </button>
+            <button class="nav-item" onclick="app.showPage('settings-screen')">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="nav-label">SETUP</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- PAGE 5: EMERGENCY -->
+    <div id="emergency-screen" class="page">
+        <div class="emergency-content">
+            <div class="emergency-status">
+                <svg fill="white" viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                <span>SOS SENT TO CAREGIVER</span>
+                <div style="flex: 1;"></div>
+                <button class="silent-panic-btn">🔇 SILENT PANIC</button>
+            </div>
+
+            <div class="emergency-icon-wrapper">
+                <svg class="emergency-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            </div>
+
+            <h1 class="emergency-title">HELP</h1>
+
+            <button class="emergency-triggered-btn">
+                👁️ EMERGENCY TRIGGERED
+            </button>
+
+            <p class="emergency-message">
+                <strong>LONG BLINK DETECTED</strong><br><br>
+                Caregiver has been notified. Stay calm,<br>help is arriving.
+            </p>
+
+            <button class="cancel-button" onclick="app.cancelEmergency()">
+                ✕ CANCEL
+            </button>
+
+            <p class="dismiss-hint">HOLD 3S TO DISMISS FALSE ALARM</p>
+        </div>
+    </div>
+
+    <!-- PAGE 6: SETTINGS -->
+    <div id="settings-screen" class="page">
+        <div class="settings-header">
+            <button class="back-button" onclick="app.showPage('main-screen')">
+                <svg fill="none" stroke="white" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <h2 class="settings-header-title">Premium Settings</h2>
+            <span class="pro-badge">PRO</span>
+        </div>
+
+        <div class="settings-content">
+            <div class="settings-section">
+                <h3 class="section-title">GESTURE CONFIGURATION</h3>
+                
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-icon-wrapper">
+                            <svg class="setting-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div class="setting-info">
+                            <div class="setting-name">AI Sensitivity</div>
+                            <div class="setting-desc">Fine-tune motion detection</div>
+                        </div>
+                        <div class="toggle-switch active">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Detection Speed</span>
+                            <span style="color: var(--primary-teal); font-weight: 600;">Fast</span>
+                        </div>
+                        <input type="range" class="slider" min="1" max="100" value="75">
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-icon-wrapper">
+                            <svg class="setting-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                        </div>
+                        <div class="setting-info">
+                            <div class="setting-name">Low Light Mode</div>
+                            <div class="setting-desc">Enhanced night tracking</div>
+                        </div>
+                        <div class="toggle-switch">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="section-title">VOICE PROFILE</h3>
+                
+                <div class="settings-card">
+                    <div class="setting-item">
+                        <div class="setting-icon-wrapper">
+                            <svg class="setting-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                            </svg>
+                        </div>
+                        <div class="setting-info">
+                            <div class="setting-name">Voice: Aura Alpha</div>
+                            <div class="setting-desc">Premium Neural Voice</div>
+                        </div>
+                        <button class="change-voice-btn">Change</button>
+                    </div>
+
+                    <div class="voice-controls">
+                        <div class="voice-control">
+                            <div class="voice-control-label">Pitch</div>
+                            <div class="voice-value">Medium</div>
+                        </div>
+                        <div class="voice-control">
+                            <div class="voice-control-label">Speed</div>
+                            <div class="voice-value">1.1x</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-card">
+                <div class="privacy-icon-wrapper">
+                    <svg fill="white" viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="privacy-title">Tactile Privacy First</div>
+                    <div class="privacy-text">All processing happens in your browser. No data is stored or uploaded.</div>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="app.showPage('main-screen')">
+                💬 Back to Communication
+            </button>
+        </div>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
