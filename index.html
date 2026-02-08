@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AuraLink AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- MediaPipe -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ================= LANDING ================= -->
+<section id="landing" class="screen active">
+  <h1>AuraLink <span>AI</span></h1>
+  <p class="tagline">Empowering Silence Through Vision</p>
+  <button onclick="goTo('setup')">Get Started</button>
+</section>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="screen">
+  <h2>Quick Setup</h2>
+
+  <input id="username" placeholder="Display name (optional)" />
+  <select id="language">
+    <option>English</option>
+    <option>Hindi</option>
+  </select>
+
+  <label class="toggle">
+    Voice Output
+    <input type="checkbox" id="voiceToggle" checked />
+  </label>
+
+  <button onclick="goTo('mode')">Continue</button>
+</section>
+
+<!-- ================= MODE ================= -->
+<section id="mode" class="screen">
+  <h2>Select Mode</h2>
+
+  <div class="cards">
+    <button onclick="selectMode('nonverbal')">Non-Verbal</button>
+    <button onclick="selectMode('limited')">Limited Movement</button>
+    <button onclick="selectMode('simple')">Simple</button>
+    <button onclick="selectMode('demo')">Support / Demo</button>
+  </div>
+</section>
+
+<!-- ================= DETECTION ================= -->
+<section id="detect" class="screen">
+  <h2>Camera Active</h2>
+
+  <video id="video" autoplay muted></video>
+  <canvas id="overlay"></canvas>
+
+  <div id="status">Listening…</div>
+
+  <div class="actions">
+    <button onclick="speak('I need water')">Water</button>
+    <button onclick="speak('I need food')">Food</button>
+    <button onclick="speak('I need medicine')">Medicine</button>
+    <button class="danger" onclick="triggerEmergency()">Emergency</button>
+  </div>
+
+  <button class="small" onclick="goTo('settings')">Settings</button>
+</section>
+
+<!-- ================= ALERT ================= -->
+<section id="alert" class="screen alert">
+  <h1>HELP</h1>
+  <p>Emergency triggered</p>
+  <button onclick="cancelEmergency()">Cancel (hold 3s)</button>
+</section>
+
+<!-- ================= SETTINGS ================= -->
+<section id="settings" class="screen">
+  <h2>Settings</h2>
+
+  <label>
+    Sensitivity
+    <input type="range" min="0.3" max="0.6" step="0.05" id="blinkThreshold" value="0.45">
+  </label>
+
+  <label>
+    Low Light Mode
+    <input type="checkbox" />
+  </label>
+
+  <button onclick="goTo('detect')">Back</button>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
